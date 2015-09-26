@@ -48,6 +48,7 @@ object ExperimentRunner {
   }
 
   def runPraFromSpec(pra_base: String)(spec_file: File) {
+    println(s"Kangqi: Enter directory $pra_base ...")
     val spec_lines = new FileUtil().readLinesFromFile(spec_file)
     val params = new SpecFileReader(pra_base).readSpecFile(spec_file)
     val mode = (params \ "pra parameters" \ "mode") match {
@@ -55,7 +56,7 @@ object ExperimentRunner {
       case JString(m) => m
       case other => throw new IllegalStateException("something is wrong in specifying the pra mode")
     }
-    val result_base_dir = if (mode == "explore graph") pra_base + EXPLORATION_DIR else pra_base + RESULTS_DIR
+    val result_base_dir = if (mode.equals("explore graph")) pra_base + EXPLORATION_DIR else pra_base + RESULTS_DIR
     val experiment_spec_dir = pra_base + SPEC_DIR
     println(s"Running PRA from spec file $spec_file")
     val experiment = spec_file.getAbsolutePath().split(SPEC_DIR).last.replace(".json", "")
