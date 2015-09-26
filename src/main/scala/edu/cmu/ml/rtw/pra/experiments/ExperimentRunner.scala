@@ -23,6 +23,7 @@ object ExperimentRunner {
     }
     val pra_base = new FileUtil().addDirectorySeparatorIfNecessary(args(0))
     val filter = args.toList.drop(1)
+    println(s"Kangqi 0: Enter directory $pra_base ...")
     runPra(pra_base, filter)
 
     // The GraphChi code doesn't do a good job at killing all of its threads, so we do so here.
@@ -45,10 +46,11 @@ object ExperimentRunner {
     val filtered = experiment_specs.filter(shouldKeepFile(experiment_filters))
     val shuffled = random.shuffle(filtered)
     shuffled.map(runPraFromSpec(pra_base) _)
+    println(s"Kangqi 1: Enter directory $pra_base ...")
   }
 
   def runPraFromSpec(pra_base: String)(spec_file: File) {
-    println(s"Kangqi: Enter directory $pra_base ...")
+    println(s"Kangqi 2: Enter directory $pra_base ...")
     val spec_lines = new FileUtil().readLinesFromFile(spec_file)
     val params = new SpecFileReader(pra_base).readSpecFile(spec_file)
     val mode = (params \ "pra parameters" \ "mode") match {
