@@ -43,9 +43,11 @@ object ExperimentRunner {
     val random = new Random
     val experiment_spec_dir = s"${pra_base}/experiment_specs/"
     val experiment_specs = FileHelper.recursiveListFiles(new File(experiment_spec_dir), """.*\.json$""".r)
-    println("json size = " + experiment_specs.size.toString())
+    println("experiment_specs size = " + experiment_specs.size.toString())
     val filtered = experiment_specs.filter(shouldKeepFile(experiment_filters))
+    println("filtered size = " + filtered.size.toString())
     val shuffled = random.shuffle(filtered)
+    println("shuffled size = " + shuffled.size.toString())
     shuffled.map(runPraFromSpec(pra_base) _)
     println(s"Kangqi 1: Enter directory $pra_base ...")
   }
