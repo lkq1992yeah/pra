@@ -80,7 +80,7 @@ object Dataset {
    */
   def fromFile(filename: String, graph: Option[Graph], fileUtil: FileUtil = new FileUtil): Dataset = {
     //Kangqi: I found here.
-    println(s"Reading file $filename")
+    //println(s"Reading file $filename")
     val lines = fileUtil.readLinesFromFile(filename).asScala
     if (lines(0).split("\t").size == 4) {
       graph match {
@@ -107,7 +107,7 @@ object Dataset {
           throw new IllegalStateException("Dataset not formatted correctly!")
       }
     val source = graph.getNodeIndex(fields(0))
-    val target = graph.getNodeIndex(fields(0))
+    val target = graph.getNodeIndex(fields(1))
     new Instance(source, target, isPositive, graph)
   }
 
