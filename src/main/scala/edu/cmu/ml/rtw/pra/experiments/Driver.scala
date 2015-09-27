@@ -100,6 +100,8 @@ class Driver(praBase: String, fileUtil: FileUtil = new FileUtil()) {
       val builder = new PraConfigBuilder(baseConfig)
       builder.setRelation(relation)
       println("\n\n\n\nRunning PRA for relation " + relation)
+      println("Here baseConfig: Training size = " + baseConfig.trainingData.instances.size.toString
+        + ", Testing Size = " + baseConfig.testingData.instances.size.toString)   //Kangqi; TD already loaded here
       Driver.parseRelationMetadata(metadataDirectory, relation, mode, builder, outputBase)
 
       val outdir = fileUtil.addDirectorySeparatorIfNecessary(outputBase + relation)
