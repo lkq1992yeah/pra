@@ -79,6 +79,8 @@ object Dataset {
    * entry is an integer, it just checks if the dictionary is null or not.
    */
   def fromFile(filename: String, graph: Option[Graph], fileUtil: FileUtil = new FileUtil): Dataset = {
+    //Kangqi: I found here.
+    println(s"Reading file $filename")
     val lines = fileUtil.readLinesFromFile(filename).asScala
     if (lines(0).split("\t").size == 4) {
       graph match {
