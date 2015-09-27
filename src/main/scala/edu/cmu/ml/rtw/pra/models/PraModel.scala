@@ -114,7 +114,12 @@ abstract class PraModel(config: PraConfig, binarizeFeatures: Boolean) {
   def classifyInstances(featureMatrix: FeatureMatrix): Seq[(Instance, Double)] = {
     println("Classifying instances")
     featureMatrix.getRows().asScala.map(matrixRow => {
+      val inst = matrixRow.instance                   //Kangqi added, for checking the strange result (e1, e2, score)
       val score = classifyMatrixRow(matrixRow)
+      println("Kangqi: Current instance source = " + inst.source.toString
+        + ", target = " + inst.target.toString
+        + ", classified T/F = " + inst.isPositive.toString
+        + ", score = " + score.toString)
       (matrixRow.instance, score)
     })
   }

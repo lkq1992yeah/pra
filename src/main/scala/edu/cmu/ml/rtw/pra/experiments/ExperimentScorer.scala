@@ -234,19 +234,20 @@ object ExperimentScorer {
         if (saved_metrics == None
             || !saved_metrics.get.isDefinedAt(relation)
             || !saved_metrics.get(relation).isDefinedAt(TIMESTAMP)
-            || saved_metrics.get(relation)(TIMESTAMP) < timestamp) {
+            || saved_metrics.get(relation)(TIMESTAMP) < timestamp) {      //already cached results in saved_metrics
           metrics(relation)(TIMESTAMP) = timestamp
           println(s"Computing metrics for relation $relation")
           for (metricComputer <- metricComputers) {
             val fixed = relation.replace("/", "_")
             var test_split_file = s"$split_dir/$fixed/testing.tsv"
+            println(s"Kangqi: testing file is: $test_split_file")
             if (!new File(test_split_file).exists()) {
               println(s"Couldn't find testing file in split dir $split_dir - this is probably an "
                 + "error")
               println(s"Filename I was looking for was this: $test_split_file")
               test_split_file = s"$experiment_dir/$relation/testing_positive_examples.tsv"
             }
-            val relation_metrics = metricComputer.computeRelationMetrics(results_file, test_split_file)
+            val relation_metrics = metricComputer.computeRelationMetrics(results_file, test_split_file)   //compute KERNEL
             metrics.update(relation, relation_metrics ++ metrics(relation))
           }
         } else {
@@ -256,7 +257,7 @@ object ExperimentScorer {
     }
 
     metrics(DISPLAY_NAME) = EmptyMetricsWithDefault
-    var name = experiment_dir.split(displayNameSplit).last
+    var name = experiment_dir.split(displayNameSplit).last      //the output row in ExperimentScorer
     val num_relations_left = relations.size - relations_seen
     if (num_relations_left != 0) {
       name += s" (not done: ${num_relations_left})"
