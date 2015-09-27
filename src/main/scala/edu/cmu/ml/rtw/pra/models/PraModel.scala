@@ -116,11 +116,11 @@ abstract class PraModel(config: PraConfig, binarizeFeatures: Boolean) {
     featureMatrix.getRows().asScala.map(matrixRow => {
       val inst = matrixRow.instance                   //Kangqi added, for checking the strange result (e1, e2, score)
       val score = classifyMatrixRow(matrixRow)
-      println("Kangqi: Current instance source = " + inst.source.toString
-        + ", target = " + inst.target.toString
-        + ", feat. length = " + matrixRow.columns.toString
-        + ", classified T/F = " + inst.isPositive.toString
-        + ", score = " + score.toString)
+      //println("Kangqi: Current instance source = " + inst.source.toString
+      //  + ", target = " + inst.target.toString
+      //  + ", feat. length = " + matrixRow.columns.toString
+      //  + ", classified T/F = " + inst.isPositive.toString
+      //  + ", score = " + score.toString)
       (matrixRow.instance, score)
     })
   }

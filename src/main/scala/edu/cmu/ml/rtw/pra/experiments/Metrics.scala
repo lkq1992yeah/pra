@@ -11,16 +11,21 @@ trait MetricComputer {
   def datasetMetricsComputed: Seq[String]
   def relationMetricsComputed: Seq[String]
 
-  def readPredictionsFromFile(results_file: String): List[Prediction] = {
+  def readPredictionsFromFile(results_file: String): List[Prediction] = {   //Read positive predictions from result file
     val predictions = new mutable.ListBuffer[Prediction]
     for (line <- Resource.fromFile(results_file).lines()) {
       val fields = line.split("\t")
       if (fields.length > 2 && fields(1).nonEmpty) {
         val score = fields(2).toDouble
-        if (score > 0) {
+        if (score > 0) {                                    //score > 0 means positive prediction
           val arg1 = fields(0)
           val arg2 = fields(1)
           val correct = if (fields.length < 4) false else fields(3).contains("*")
+          //value "correct" record the gold T/F
+          //* indicates this <e1, e2> case is a gold positive
+
+          //^ indicates this <e1, e2> case is occurred in traning data
+          //*^: this <e1, e2> pair is known to be positive in training data. So we omit this prediction when scoring
           if (fields.length < 4 || !fields(3).contains("*^")) {
             predictions += Tuple4(score, correct, arg1, arg2)
           }
@@ -64,7 +69,9 @@ object BasicMetricComputer extends MetricComputer {
     val predictions = readPredictionsFromFile(results_file)                                       //read predictions
     //store a list of predictions
     //ONLY load positive predictions, and sort by score (for computing MRR)
-    //Format in results_file: <e1, e2, score, *>   the "*" indicates a positive prediction, otherwise negative.
+    //Format in results_file: <e1, e2, score, gold TF>
+    //Note: in the function "readPredictionsFromFile", only score > 0 cases are picked as positive predictions.
+    //Check detail in the function.
 
     val testData = readPositiveInstancesFromDataFile(test_split_file).withDefaultValue(Set())
     //store of <e1, <e2>> positive entity pairs in test data

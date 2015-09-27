@@ -180,8 +180,12 @@ class Driver(praBase: String, fileUtil: FileUtil = new FileUtil()) {
     // Now we actually run PRA.
 
     // First we get features.
+    //Kangqi: the following comments try to find where the training data is read
+    println("Here 0: TD size = " + config.trainingData.instances.size.toString)
     val generator = createFeatureGenerator(praParams, config)
+    println("Here 1: TD size = " + config.trainingData.instances.size.toString)
     val trainingMatrix = generator.createTrainingMatrix(config.trainingData)
+    println("Here 2: TD size = " + config.trainingData.instances.size.toString)
 
     // Then we train a model.
     val learningParams = praParams \ "learning"
