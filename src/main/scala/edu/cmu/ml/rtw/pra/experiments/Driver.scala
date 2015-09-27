@@ -181,11 +181,15 @@ class Driver(praBase: String, fileUtil: FileUtil = new FileUtil()) {
 
     // First we get features.
     //Kangqi: the following comments try to find where the training data is read
-    println("Here 0: TD size = " + config.trainingData.instances.size.toString)
+    println("Here 0: Training size = " + config.trainingData.instances.size.toString
+                  + ", Testing Size = " + config.testingData.instances.size.toString)   //Kangqi; TD already loaded here
+    val instTrain = config.trainingData.instances(1)
+    val instTest = config.trainingData.instances(1)
+    println(s"the first training: <${instTrain.source}, ${instTrain.target}, ${instTrain.isPositive}>")  //Kangqi: Check the status of TD
+    println(s"the first testing: <${instTest.source}, ${instTest.target}, ${instTest.isPositive}>")
+
     val generator = createFeatureGenerator(praParams, config)
-    println("Here 1: TD size = " + config.trainingData.instances.size.toString)
     val trainingMatrix = generator.createTrainingMatrix(config.trainingData)
-    println("Here 2: TD size = " + config.trainingData.instances.size.toString)
 
     // Then we train a model.
     val learningParams = praParams \ "learning"
