@@ -204,7 +204,7 @@ class BfsPathFinder(
 
   def shouldSkip(source: Int, target: Int, node1: Int, node2: Int, relation: Int, exclude: Set[Int]) = {
     if (!(source == node1 && target == node2) && !(source == node2 && target == node1))
-      false
+      false   //Kangqi: Only consider remove <source, relation, target>, but not all <*, relation, *> instances.
     else if (exclude.contains(relation))
       true
     else
