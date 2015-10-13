@@ -260,6 +260,7 @@ class Driver(praBase: String, fileUtil: FileUtil = new FileUtil()) {
         params_specified = true
       }
     }
+    println(s"Kangqi: current graph name is [$graph_name]")
     if (graph_name != "") {
       // Here we need to see if the graph has already been created, and (if so) whether the graph
       // as specified matches what's already been created.
